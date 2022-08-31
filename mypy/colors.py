@@ -33,95 +33,131 @@ class Colors:
     LIGHT_MAGENTA = "\033[95m"
     LIGHT_CYAN = "\033[96m"
 
-    def lighht_yellow(self):
-        self.sequences.append(Colors.LIGHT_YELLOW)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def light_green(self):
-        self.sequences.append(Colors.LIGHT_GREEN)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def dark_gray(self):
-        self.sequences.append(Colors.DARK_GRAY)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def light_red(self):
-        self.sequences.append(Colors.LIGHT_RED)
-        self.ending.apend(Colors.RESET)
-        return self
-
-    def light_gray(self):
-        self.sequences.append(Colors.LIGHT_GRAY)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def cyan(self):
-        self.sequences.append(Colors.CYAN)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def yellow(self):
-        self.sequences.append(Colors.YELLOW)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def blue(self):
-        self.sequences.append(Colors.BLUE)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def magenta(self):
-        self.sequences.append(Colors.MAGENTA)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def green(self):
-        self.sequences.append(Colors.GREEN)
-        self.ending.append(Colors.RESET)
-        return self
-
-    def red(self):
-        self.sequences.append(Colors.RED)
-        self.ending.append(Colors.RESET)
-        return self
-
     def __init__(self, text: str = ""):
         self.text = text
         self.ending = []
         self.sequences = []
 
+    def light_cyan(self):
+        """Color with LIGHT_CYAN."""
+        self.sequences.append(Colors.LIGHT_CYAN)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def light_magenta(self):
+        """Color with LIGHT_MAGENTA."""
+        self.sequences.append(Colors.LIGHT_BLUE)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def light_blue(self):
+        """Color with LIGHT_BLUE."""
+        self.sequences.append(Colors.LIGHT_BLUE)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def light_yellow(self):
+        """Color with LIGHT_YELLOW."""
+        self.sequences.append(Colors.LIGHT_YELLOW)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def light_green(self):
+        """Color with LIGHT_GREEN."""
+        self.sequences.append(Colors.LIGHT_GREEN)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def dark_gray(self):
+        """Color with DARK_GRAY."""
+        self.sequences.append(Colors.DARK_GRAY)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def light_red(self):
+        """Color with LIGHT_RED."""
+        self.sequences.append(Colors.LIGHT_RED)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def light_gray(self):
+        """Color with LIGHT_GRAY."""
+        self.sequences.append(Colors.LIGHT_GRAY)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def cyan(self):
+        """Color with CYAN."""
+        self.sequences.append(Colors.CYAN)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def yellow(self):
+        """Color with YELLOW."""
+        self.sequences.append(Colors.YELLOW)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def blue(self):
+        """Color with BLUE."""
+        self.sequences.append(Colors.BLUE)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def magenta(self):
+        """Color with MAGENTA."""
+        self.sequences.append(Colors.MAGENTA)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def green(self):
+        """Color with GREEN."""
+        self.sequences.append(Colors.GREEN)
+        self.ending.append(Colors.RESET)
+        return self
+
+    def red(self):
+        """Color with RED."""
+        self.sequences.append(Colors.RED)
+        self.ending.append(Colors.RESET)
+        return self
+
     def bold(self):
+        """Color with BOLD."""
         self.sequences.append(Colors.BOLD)
         self.ending.append(Colors.RESET_BOLD)
         return self
 
     def underline(self):
+        """Color with UNDERLINE."""
         self.sequences.append(Colors.UNDERLINE)
-        self.endings.append(Colors.RESET_UNDERLINE)
+        self.ending.append(Colors.RESET_UNDERLINE)
         return self
 
     def dim(self):
+        """Perform operation DIM."""
         self.sequences.append(Colors.DIM)
         self.ending.append(Colors.RESET_DIM)
         return self
 
     def blink(self):
+        """Perform operation BLINK."""
         self.sequences.append(Colors.BLINK)
         self.ending.append(Colors.RESET_BLINK)
         return self
 
     def hidden(self):
+        """Perform operation HIDDEN."""
         self.sequences.append(Colors.HIDDEN)
-        self.ending.append(Colors.REST)
+        self.ending.append(Colors.RESET)
         return self
 
     def __str__(self):
+        """Return a string implementation."""
         return ''.join(self.sequences) + self.text + ''.join(self.ending)
 
     def black(self):
+        """Color with BLACK."""
         self.sequences.append(Colors.BLACK)
         self.ending.append(Colors.RESET)
         return self
