@@ -38,6 +38,16 @@ class Colors:
         self.ending = []
         self.sequences = []
 
+    def __add__(self, other):
+        return str(self) + str(other)
+
+    def __radd__(self, other):
+        return other + str(self)
+
+    def __repr__(self):
+        """Representation of self."""
+        return ''.join(self.sequences) + self.text + ''.join(self.ending)
+
     def light_cyan(self):
         """Color with LIGHT_CYAN."""
         self.sequences.append(Colors.LIGHT_CYAN)
