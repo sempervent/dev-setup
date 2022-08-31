@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Use this file to read values in from an env file."""
+import os
 import pathlib
 from typing import Union
 
@@ -34,3 +35,16 @@ def load_env(file_path: Union[str, pathlib.Path],
         if register is True:
             globals()[key] = value
     return env_dict
+
+
+def get_env(
+    key: str,
+    value: Union[int, str, bool] = None
+) -> Union[int, str, bool]:
+    """Retrieve a key with default value from os.environ."""
+    if key in os.environ:
+        return_var = os.environ[key]
+    else:
+        return_var
+    return process_value(return_var)
+
