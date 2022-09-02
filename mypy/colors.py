@@ -171,3 +171,10 @@ class Colors:
         self.sequences.append(Colors.BLACK)
         self.ending.append(Colors.RESET)
         return self
+
+if __name__ == "__main__":
+    print(
+        Colors('hello').green().blink() +
+        Colors(', ').yellow().bold() +
+        Colors('world').light_gray().dim()
+    )
