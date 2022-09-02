@@ -43,8 +43,9 @@ def get_env(
 ) -> Union[int, str, bool]:
     """Retrieve a key with default value from os.environ."""
     if key in os.environ:
-        return_var = os.environ[key]
+        return process_value(os.environ[key])
+    if key in globals():
+        return globals()[key]
     else:
-        return_var
-    return process_value(return_var)
+        return value
 
