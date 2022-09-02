@@ -19,8 +19,11 @@ def process_value(value: str) -> Union[int, str, bool]:
     return value
 
 
-def load_env(file_path: Union[str, pathlib.Path],
-             register: bool = True) -> dict:
+def load_env(
+    file_path: Union[str, pathlib.Path],
+    register: bool = True,
+    register_system: bool = False,
+) -> dict:
     """Load an environment file into a dict."""
     if isinstance(file_path, str):
         file_path = pathlib.Path(file_path)
@@ -34,6 +37,8 @@ def load_env(file_path: Union[str, pathlib.Path],
         env_dict[key] = value
         if register is True:
             globals()[key] = value
+        if register_system is True:
+            os.environ[key] = str(value)
     return env_dict
 
 
