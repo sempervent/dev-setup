@@ -4,7 +4,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-# pylint: disable=unnecessary-pass
+# pylint: disable=unnecessary-pass invalid-name
 class Database(metaclass=ABCMeta):
     """Generic database method."""
 
@@ -14,6 +14,7 @@ class Database(metaclass=ABCMeta):
         self._pass = kwargs.get('password') if 'password' in kwargs else None
         self.host = kwargs.get('host') if 'host' in kwargs else None
         self.port = kwargs.get('port') if 'port' in kwargs else None
+        self.db = kwargs.get('db') if 'db' in kwargs else None
         self.protocol = kwargs.get('protocol') if 'protocol' in kwargs else None
         self.connection = None
 
@@ -25,6 +26,11 @@ class Database(metaclass=ABCMeta):
     @abstractmethod
     def disconnect(self, **kwargs):
         """Abstract method for disconnecting from database."""
+        pass
+
+    @abstractmethod
+    def query(self, query):
+        """Run a query on the database."""
         pass
 
     def __enter__(self):
