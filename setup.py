@@ -14,6 +14,8 @@ setup(
     author="Joshua N. Grant",
     author_email="jngrant@live.com",
     packages=["mypy", "mypy.net", "mypy.db"],
-    install_requires=pathlib.Path('requirements.txt').read_text().split(),
+    install_requires=(
+        pathlib.Path('requirements.txt'
+                     ).read_text(encoding='UTF-8').split()),
     scripts=_SCRIPTS,
 )
