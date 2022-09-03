@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Provide a colors class for use in printing."""
+from datetime import datetime
 
 
 class Colors:
@@ -34,14 +35,17 @@ class Colors:
     LIGHT_CYAN = "\033[96m"
 
     def __init__(self, text: str = ""):
+        """Iniitialize the class with text."""
         self.text = text
         self.ending = []
         self.sequences = []
 
     def __add__(self, other):
+        """Add the str of the two together."""
         return str(self) + str(other)
 
     def __radd__(self, other):
+        """Reverse add the str of the other to self."""
         return other + str(self)
 
     def __repr__(self):
@@ -172,9 +176,40 @@ class Colors:
         self.ending.append(Colors.RESET)
         return self
 
+
+def now(
+    fmt: str = "%Y/%m/%d %H:%M:%S",
+    utc: bool = True,
+) -> str:
+    """Format a datetime in a readable color."""
+    if utc is True:
+        _now = datetime.utcnow()
+    else:
+        _now = datetime.now()
+    return Colors(_now.strftime(fmt)).dim()
+
+
+def warn(text: str = '') -> str:
+    """Provide a generic warn statement."""
+    return now() + ' ' + Colors('WARNING:').yellow() + Colors(text).light_yellow()
+
+
+def info(text: str = '') -> str:
+    """Return a generic information statement."""
+    return now() + ' ' + Colors('INFO: ').green() + Colors(text).light_green()
+
+
+def error(text: str = '') -> str:
+    """Return a generic error statement."""
+    return now() + ' ' + Colors('ERROR: ').red() + Colors(text).light_red()
+
+
 if __name__ == "__main__":
     print(
         Colors('hello').green().blink() +
         Colors(', ').yellow().bold() +
         Colors('world').light_gray().dim()
     )
+    print(warn('warning'))
+    print(info('info'))
+    print(error('error'))

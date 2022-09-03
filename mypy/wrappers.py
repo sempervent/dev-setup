@@ -59,11 +59,11 @@ class ParallelExecutor():
 
     def inputs(self) -> list:
         """Return the inputs as a list."""
-        return [x for x in self.iterators]
+        return list(self.iterators)
 
     def done(self) -> list:
         """Check if all futures have completed."""
-        return all([x.done() for x in self.futures])
+        return all(x.done() for x in self.futures)
 
     def set_iterators(self, iterators: Iterable):
         """Set the iterators attribute."""
@@ -74,16 +74,13 @@ class ParallelExecutor():
         self.function = function
 
 
-
 if __name__ == "__main__":
-    try:
-        from colors import Colors
-    except ImportError:
-        from .colors import Colors
+    # pylint: disable=invalid-name
+    from mypy.colors import Colors
     from datetime import datetime
 
     def count(x: int):
-        """Dummy example function."""
+        """Test function."""
         return 2**x
 
     integers = range(10)
