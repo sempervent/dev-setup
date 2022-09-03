@@ -18,8 +18,7 @@ class Files:
                 if isinstance(file_path_item, str):
                     file_path_item = pathlib.Path(file_path_item)
                 self.paths.append(file_path_item)
-                self.files.append(
-                    self.prepare(file_path_item))
+                self.files.append(self.prepare(file_path_item))
         if isinstance(file_path, str):
             file_path = pathlib.Path(file_path)
         if isinstance(file_path, pathlib.Path):
