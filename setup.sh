@@ -46,6 +46,7 @@ while :; do
       python3 -m ensurepip
       python3 -m pip install --upgrade pip
       python3 -m pip install -r requirements.txt
+      pip install .
       info "Finished installation"
       shift
       ;; # 3}}}
