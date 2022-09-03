@@ -45,7 +45,7 @@ class Files:
     def get(self):
         """Return the self.files state."""
         if len(self.files) == 0:  # return nothing if no files
-            return
+            return None
         if len(self.files) == 1:  # don't return as list if only 1
             return self.files[0]
         return self.files
@@ -53,7 +53,7 @@ class Files:
     def sizes(self):
         """Return the file size in bytes."""
         if len(self.file_sizes) == 0:
-            return
+            return None
         if len(self.file_sizes) == 1:
             return self.file_sizes[0]
         return self.file_sizes
