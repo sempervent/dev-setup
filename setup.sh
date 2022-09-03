@@ -40,6 +40,15 @@ show_help() { # {{{2
 # arguments {{{1 
 while :; do
   case $1 in # check arguments {{{2 
+    install) # install {{{3
+      info "Beginning installation"
+      git pull
+      python3 -m ensurepip
+      python3 -m pip install --upgrade pip
+      python3 -m pip install -r requirements.txt
+      info "Finished installation"
+      shift
+      ;; # 3}}}
     -h|-\?|--help) # help {{{3 
       banner
       show_help
