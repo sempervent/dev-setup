@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""Provide a PostgreSQL mixin."""
 import os
+from typing import Union, Any
 import psycopg2
 
 
 class PostgresMixin:
+    """Provide PostgresMixin for use with Database class."""
 
     def connect(self):
         """Open a connection."""
@@ -23,5 +26,23 @@ class PostgresMixin:
         self.cursor.close()
         self.connection.close()
         self.connection = None
+        self.cursor = None
+
+    def select(self, query: str = '') -> Any[list, tuple]:
+        """Send a query to the database."""
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
+
+    def insert(self, query: str = '', parameters: Union[list, tuple] = ()):
+        """Insert into the database."""
+        self.cursor.execute(query, parameters)
+
+    def commit(self):
+        """Commit the changes to the databse."""
+        self.connection.commit()
+
+    def rolback(self):
+        """Rollback the changes to the databse."""
+        self.connection.rollback()
 
 
