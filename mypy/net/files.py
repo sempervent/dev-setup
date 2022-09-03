@@ -60,7 +60,7 @@ class Files:
 
 
 if __name__ == "__main__":
-    a = Files(['__init__.py', 'files.py'])
+    a = Files(['__init__.py', 'files.py', 'README.md'])
     print(a.get())
     print(a.sizes())
     b = Files('files.py')
