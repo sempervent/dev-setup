@@ -10,8 +10,8 @@ from requests.auth import HTTPBasicAuth
 import validators
 from pydantic import BaseModel, validator
 
-from mypy.models.auth import User
-from mypy.net.files import Files
+from depy.models.auth import User
+from depy.net.files import Files
 
 JSON_TYPE = Union[None, int, str, bool, float, Dict[str, Any], List[Any]]
 METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'HEAD', 'OPTIONS', 'DELTE']
