@@ -1,4 +1,4 @@
-# `mypy` package
+# `depy` package
 ## a friendly helper for everyday tasks
 
 ## setup

@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 """Provide a wrapper around requests."""
 import pathlib
-from typing import Optional, Union, Any, Literal
+from datetime import datetime
+from typing import Optional, Union, Any, Literal, List, Dict
+from http.cookiejar import CookieJar
 import requests
 from requests.auth import HTTPBasicAuth
 import validators
@@ -11,7 +13,8 @@ from pydantic import BaseModel, validator
 from mypy.models.auth import User
 from mypy.net.files import Files
 
-METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'HEAD']
+JSON_TYPE = Union[None, int, str, bool, float, Dict[str, Any], List[Any]]
+METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'HEAD', 'OPTIONS', 'DELTE']
 ERROR_RETURN_TYPES = ['string', 'dict']
 
 
@@ -31,6 +34,18 @@ class Response(BaseModel):
     files: Optional[Any] = None
     response: Optional[Any] = None
     params: Optional[Union[dict, list]] = None
+    json_data: Optional[JSON_TYPE] = None
+    created: Optional[datetime] = datetime.utcnow()
+    accessed: Optional[datetime] = None
+    allow_redirects: Optional[bool] = True
+    stream: Optional[bool] = False
+    cert: Optional[Union[str, tuple]] = None
+    cookies: Optional[Union[dict, CookieJar]] = None
+    proxies: Optional[dict] = None
+    return_headers: Optional[dict] = None
+
+    class Config:
+        arbitrary_types_allowed = True
 
     def __init__(self, **kwargs):
         """Initialize the response class."""
@@ -40,6 +55,12 @@ class Response(BaseModel):
             else None
         self.files = Files(self.file_paths) if self.file_paths is not None \
             else None
+
+    @validator('cookies')
+    def _validate_cookies(cls, cookies):
+        if isinstance(cookies, dict) or isinstance(cookies, CookieJar):
+            return cookies
+        return None
 
     @validator('url')
     def _validate_url(cls, url):
@@ -67,12 +88,22 @@ class Response(BaseModel):
             response = requests.request(
                 method=self.method,
                 url=self.url,
+                params=self.params,
                 data=self.data,
+                json=self.json_data,
+                headers=self.headers,
+                cookies=self.cookies,
                 files=self.files,
+                auth=self.auth(),
                 timeout=self.timeout,
+                allow_redirects=self.allow_redirects,
+                proxies=self.proxies,
                 verify=self.verify,
-                auth=self.auth()
+                stream=self.stream,
+                cert=self.cert,
+
             )
+            self.accessed = datetime.utcnow()
             if response.status_code == 200:
                 self.response = response
                 break
@@ -80,7 +111,7 @@ class Response(BaseModel):
             retry_counter -= 1
 
     def error(self,
-              return_type: Literal['dict', 'string']  = 'dict'
+              return_type: Literal['dict', 'string'] = 'dict'
               ) -> Union[dict, str]:
         """Return the error code and the description."""
         if self.response is None:
@@ -94,13 +125,33 @@ class Response(BaseModel):
             return f"Response failed with {self.response.status_code} " + \
                 f"code and description: {self.resposne.reason}."
 
+    def text(self) -> str:
+        """Return the response as text."""
+        if self.response is None:
+            return None
+        return self.response.text
+
+    def as_json(self) -> dict:
+        """Return the response as json."""
+        if self.response is None:
+            return None
+        return self.response.json()
+
+    def access_headers(self) -> dict:
+        """Return the headers from the response."""
+        if self.response is None:
+            return None
+        return self.response.headers
+
 
 if __name__ == "__main__":
-    response = Response(url='https://google.com',
+    response = Response(url='https://httpbin.org/get',
                         method='get')
     response.submit()
-    print(response.response.text)
-    response = Response(url='https://google.com',
+    print(response.text())
+    print(response.as_json())
+    response = Response(url='https://httpbin.org/get',
                         method='post')
     response.submit()
     print(response.error())
+    print(response.dict())
