@@ -13,14 +13,20 @@ class User(BaseModel):
     password: str
     created: Optional[datetime] = datetime.utcnow()
 
-
-class RequestsUser(User):
-    """Auth for requests usage."""
-    auth_token: str = None
+    def created_at(self, as_datetime=False):
+        """Return the created datetime."""
+        if as_datetime is True:
+            return self.created
+        return self.created.strftime('%Y-%m-%d %H:%M:%S')
 
     def auth(self):
         """Return auth for a request object."""
         return (self.username, self.password)
+
+
+class RequestsUser(User):
+    """Auth for requests usage."""
+    auth_token: str = None
 
     def bearer(self):
         """Return bearer headers."""
@@ -34,6 +40,7 @@ if __name__ == "__main__":
     auth = User(username='testuser',
                 password='testpass')
     print(auth.dict())
+    print(auth.created_at())
     auth = RequestsUser(username='testuser',
                         password='testpass')
     print(auth.auth())

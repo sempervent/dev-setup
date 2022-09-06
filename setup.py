@@ -14,7 +14,7 @@ setup(
     description="Common everyday tools made easier.",
     author="Joshua N. Grant",
     author_email="jngrant@live.com",
-    packages=["mypy", "mypy.net", "mypy.db"],
+    packages=["mypy", "mypy.net", "mypy.db", "mypy.models"],
     install_requires=(
         pathlib.Path('requirements.txt'
                      ).read_text(encoding='UTF-8').split()),
