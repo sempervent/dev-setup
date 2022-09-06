@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Provide a wrapper around requests."""
 import pathlib
-from typing import Optional, Union, Any
+from typing import Optional, Union, Any, Literal
 import requests
 from requests.auth import HTTPBasicAuth
 import validators
@@ -12,6 +12,7 @@ from mypy.models.auth import User
 from mypy.net.files import Files
 
 METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'HEAD']
+ERROR_RETURN_TYPES = ['string', 'dict']
 
 
 class Response(BaseModel):
@@ -25,7 +26,7 @@ class Response(BaseModel):
     file_paths: Optional[Union[list, pathlib.Path, str]] = None
     retries: Optional[int] = 0
     timeout: Optional[int] = 30
-    verify: Optional[bool] = False
+    verify: Optional[bool] = True
     user: Optional[Any] = None
     files: Optional[Any] = None
     response: Optional[Any] = None
@@ -75,7 +76,23 @@ class Response(BaseModel):
             if response.status_code == 200:
                 self.response = response
                 break
+            self.response = response
             retry_counter -= 1
+
+    def error(self,
+              return_type: Literal['dict', 'string']  = 'dict'
+              ) -> Union[dict, str]:
+        """Return the error code and the description."""
+        if self.response is None:
+            return None
+        if return_type == 'dict':
+            return {
+                'error_code': self.response.status_code,
+                'error_description': self.response.reason,
+            }
+        if return_type == 'string':
+            return f"Response failed with {self.response.status_code} " + \
+                f"code and description: {self.resposne.reason}."
 
 
 if __name__ == "__main__":
@@ -83,3 +100,7 @@ if __name__ == "__main__":
                         method='get')
     response.submit()
     print(response.response.text)
+    response = Response(url='https://google.com',
+                        method='post')
+    response.submit()
+    print(response.error())
