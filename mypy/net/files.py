@@ -28,8 +28,6 @@ class Files:
             self.files.append(self.prepare(file_path))
             self.encodings.append(self.encoding(file_path))
         self.file_sizes = [x.stat().st_size for x in self.paths]
-        if len(self.files) == 1:  # requests takes a tuple if only 1 is passed
-            self.files = self.files[0]
 
     @staticmethod
     def encoding(file_path: Union[str, pathlib.Path]) -> Union[str, list]:
@@ -55,8 +53,6 @@ class Files:
         """Return the self.files state."""
         if len(self.files) == 0:  # return nothing if no files
             return None
-        if len(self.files) == 1:  # don't return as list if only 1
-            return self.files[0]
         return self.files
 
     def sizes(self):

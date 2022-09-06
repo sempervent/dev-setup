@@ -11,6 +11,7 @@ response = requests.request('PUT', url, files=files.get())
 
 ````
 The `Files` class automatically converts the inputs into a tuple or list of
-tuples ready for the `requests` engine to parse. Additionally it includes a 
+tuples ready for the `requests` engine to parse, and the MIME-type is generated
+by the `python-magic` module. Additionally it includes a 
 `Files.sizes()` method to retrieve file sizes in the case that information is
 needed.
