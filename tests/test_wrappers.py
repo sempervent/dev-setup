@@ -26,6 +26,8 @@ class TestParallelExecutor(unittest.TestCase):
         pe.execute()
         self.assertEqual(pe.results(), NUMS_RESULTS)
         self.assertEqual(pe.exceptions(), None)
+        futures = pe.submit(values=True)
+        self.assertGreater(len(futures), 0)
 
 
 if __name__ == "__main__":
