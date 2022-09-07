@@ -51,6 +51,11 @@ while :; do
       info "Finished installation"
       shift
       ;; # 3}}}
+    uninstall) # uninstall {{{3
+      warn "Uninstalling depy."
+      pip uninstall depy
+      shift
+      ;; # 3}}}
     -h|-\?|--help) # help {{{3 
       banner
       show_help
