@@ -60,7 +60,7 @@ class Colors:
 
     def light_magenta(self):
         """Color with LIGHT_MAGENTA."""
-        self.sequences.append(Colors.LIGHT_BLUE)
+        self.sequences.append(Colors.LIGHT_MAGENTA)
         self.ending.append(Colors.RESET)
         return self
 
@@ -176,6 +176,17 @@ class Colors:
         self.ending.append(Colors.RESET)
         return self
 
+    # pylint: disable=invalid-name
+    def fg(self):
+        """Color with FOREGROUND."""
+        self.sequences.append(Colors.FOREGROUND)
+        self.ending.append(Colors.RESET)
+
+    def reset(self):
+        """Reset all sequences and endings."""
+        self.sequences = []
+        self.ending = []
+
 
 def now(
     fmt: str = "%Y/%m/%d %H:%M:%S",
@@ -191,7 +202,8 @@ def now(
 
 def warn(text: str = '') -> str:
     """Provide a generic warn statement."""
-    return now() + ' ' + Colors('WARNING:').yellow() + Colors(text).light_yellow()
+    return now() + ' ' + Colors('WARNING:').yellow() + \
+        Colors(text).light_yellow()
 
 
 def info(text: str = '') -> str:
@@ -204,6 +216,12 @@ def error(text: str = '') -> str:
     return now() + ' ' + Colors('ERROR: ').red() + Colors(text).light_red()
 
 
+def critical(text: str = '') -> str:
+    """Return a critical error statement."""
+    return Colors(now()).blink() + ' ' + Colors('CRITICAL: ').red().bold() + \
+        Colors(text).light_red()
+
+
 if __name__ == "__main__":
     print(
         Colors('hello').green().blink() +
@@ -213,3 +231,4 @@ if __name__ == "__main__":
     print(warn('warning'))
     print(info('info'))
     print(error('error'))
+    print(critical('critical'))
