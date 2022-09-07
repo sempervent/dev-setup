@@ -58,7 +58,7 @@ class Response(BaseModel):
 
     @validator('cookies')
     def _validate_cookies(cls, cookies):
-        if isinstance(cookies, dict) or isinstance(cookies, CookieJar):
+        if isinstance(cookies, (dict, CookieJar)):
             return cookies
         return None
 
@@ -84,6 +84,7 @@ class Response(BaseModel):
         """Submit a request to the url."""
         retry_counter = self.retries
         self.response = None
+        # pylint: disable=redefined-outer-name
         while retry_counter >= self.retries:
             response = requests.request(
                 method=self.method,
@@ -142,6 +143,12 @@ class Response(BaseModel):
         if self.response is None:
             return None
         return self.response.headers
+
+    def status_code(self) -> int:
+        """Return the status code of the response."""
+        if self.response is None:
+            return None
+        return self.response.status_code
 
 
 if __name__ == "__main__":
