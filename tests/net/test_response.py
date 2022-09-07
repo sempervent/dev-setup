@@ -11,18 +11,18 @@ URL = 'https://httpbin.org/'
 class TestResponse(unittest.TestCase):
     """Test the Response class."""
 
-    def test(self, method: str):
-        """Generic test method."""
-        response = Response(url=URL + method, method=method)
-        response.submit()
-        self.assertTrue(response.status_code(), 200)
-        print(response.response.text)
-        self.assertTrue(response.as_json()['url'], URL + method)
-
     def test_all_methods(self):
         """Use self.test(method) to test the methods."""
-        [self.test(method.lower()) for method in METHODS if
-                   method not in ['HEAD', 'OPTIONS', 'DELETE']]
+        def test_method(method: str):
+            """Generic test method."""
+            response = Response(url=URL + method, method=method)
+            response.submit()
+            self.assertTrue(response.status_code(), 200)
+            print(response.response.text)
+            self.assertTrue(response.as_json()['url'], URL + method)
+        for method in METHODS:
+            if method not in ['HEAD', 'OPTIONS', 'DELETE']:
+                test_method(method.lower())
 
 
 if __name__ == "__main__":
