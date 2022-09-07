@@ -21,8 +21,9 @@ def process_value(value: str) -> Union[int, str, bool]:
 
 def load_env(
     file_path: Union[str, pathlib.Path],
-    register: bool = True,
+    register: bool = False,
     register_system: bool = False,
+    encoding: str = 'UTF-8'
 ) -> dict:
     """Load an environment file into a dict."""
     if isinstance(file_path, str):
@@ -30,8 +31,8 @@ def load_env(
     env_dict = {}
     if file_path.exists() is False:
         raise FileNotFoundError
-    env_lines = file_path.read_text().splitlines()
-    env_pairs = [x.split('=') for x in env_lines]
+    env_pairs = [x.split('=') for x in
+                 file_path.read_text(encoding=encoding).splitlines()]
     for pair in env_pairs:
         key, value = pair[0], process_value(pair[1])
         env_dict[key] = value
