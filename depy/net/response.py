@@ -14,7 +14,7 @@ from depy.models.auth import User
 from depy.net.files import Files
 
 JSON_TYPE = Union[None, int, str, bool, float, Dict[str, Any], List[Any]]
-METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'HEAD', 'OPTIONS', 'DELTE']
+METHODS = ['GET', 'PUT', 'PATCH', 'POST', 'HEAD', 'OPTIONS', 'DELETE']
 ERROR_RETURN_TYPES = ['string', 'dict']
 
 
