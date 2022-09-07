@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 """Provide generic auth models."""
 from datetime import datetime
-from typing import List, Optional
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, Field
+
+from requests.auth import HTTPBasicAuth
 
 
 # pylint: disable=too-few-public-methods
@@ -23,17 +25,23 @@ class User(BaseModel):
         """Return auth for a request object."""
         return (self.username, self.password)
 
+    def basic_auth(self):
+        """Return HTTPAuth for a request object."""
+        return HTTPBasicAuth(self.username, self.password)
 
-class RequestsUser(User):
+
+class TokenUser(User):
     """Auth for requests usage."""
     auth_token: str = None
+    auth_token_created: Optional[datetime] = datetime.utcnow()
 
-    def bearer(self):
+    def bearer(self, include_content_type: bool = False):
         """Return bearer headers."""
-        return {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {self.auth_token}'
-        }
+        bearer_header = {}
+        if include_content_type is True:
+            bearer_header.update({'Content-Type': 'application/json'})
+        bearer_header.update({'Authorization': f'Bearer {self.auth_token}'})
+        return bearer_header
 
 
 if __name__ == "__main__":
@@ -41,11 +49,11 @@ if __name__ == "__main__":
                 password='testpass')
     print(auth.dict())
     print(auth.created_at())
-    auth = RequestsUser(username='testuser',
-                        password='testpass')
+    auth = TokenUser(username='testuser',
+                     password='testpass')
     print(auth.auth())
-    bearer_auth = RequestsUser(username='testuser',
-                               password='testpass',
-                               auth_token='testtoken')
+    bearer_auth = TokenUser(username='testuser',
+                            password='testpass',
+                            auth_token='testtoken')
     print(bearer_auth.bearer())
 
