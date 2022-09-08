@@ -54,6 +54,15 @@ while :; do
     uninstall) # uninstall {{{3
       warn "Uninstalling depy."
       pip uninstall depy
+      warn "Uninstall complete."
+      shift
+      ;; # 3}}}
+    clean) # clean {{{3
+      info "Cleaning."
+      find . -type f -name '*.py[co]' -delete \
+        -o -type d -name __pycahce__ -delete
+      rm -rf depy.egg-info/
+      info "Finished cleaning."
       shift
       ;; # 3}}}
     -h|-\?|--help) # help {{{3 
