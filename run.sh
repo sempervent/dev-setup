@@ -9,6 +9,7 @@
 # environment {{{1 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT=${PROJECT:-"Some Project Name in $DIR"}
+PYTHON_TEST_SERVER="http://localhost:8000"
 # 1}}} 
 # functions {{{1 
 banner() { # {{{2
@@ -46,7 +47,7 @@ while :; do
       python3 -m ensurepip
       python3 -m pip install --upgrade pip
       python3 -m pip install -r requirements.txt
-      pip install .
+      pip install .[dev,postgres]
       python3 setup.py clean --all
       info "Finished installation"
       shift
@@ -63,6 +64,27 @@ while :; do
         -o -type d -name __pycahce__ -delete
       rm -rf depy.egg-info/
       info "Finished cleaning."
+      shift
+      ;; # 3}}}
+    test) # test {{{3
+      warn "Testing"
+      pytest --cov=depy --cov-report term-missing tests/
+      shift
+      ;; # 3}}}
+    test-server) # test-server {{{3
+      warn "Testing"
+      pytest --cov=depy --cov-report=html || die
+      cd htmlcov || die "no htmlcov dir available"
+      python3 -m http.server 8000 &
+      w3m "$PYTHON_TEST_SERVER" || xdg-open "$PYTHON_TEST_SERVER" || \
+        open "$PYTHON_TEST_SERVER"
+      shift
+      ;; # 3}}}
+    down-test-server) # spin down the test server {{{3
+      warn "Spin down the test server."
+      kill $(ps -e -o pid,command | \
+        grep -oP "\d+\s(?=python3 -m http.server 8000)") || \
+        die "Server is not running."
       shift
       ;; # 3}}}
     -h|-\?|--help) # help {{{3 

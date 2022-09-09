@@ -19,4 +19,14 @@ setup(
         pathlib.Path('requirements.txt'
                      ).read_text(encoding='UTF-8').split()),
     scripts=_SCRIPTS,
+    extras_require={
+        'dev': [
+            'pytest',
+            'pytest-pep8',
+            'pytest-cov',
+        ],
+        'postgres': [
+            'psycopg2-binary',
+        ],
+    }
 )
