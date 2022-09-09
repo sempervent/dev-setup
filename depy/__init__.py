@@ -15,7 +15,6 @@ def unlist(lst: Iterable):
             yield item
 
 
-if __name__ == "__main__":
-    test_list = [[1, 2], [3, 4, 5], [6, 7], [8, [9]], 10]
-    print(list(unlist(test_list)))
-
+def flatten(lst: Iterable) -> list:
+    """Return a flat list from an Iterable."""
+    return list(unlist(lst=lst))

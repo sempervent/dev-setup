@@ -85,6 +85,7 @@ while :; do
       kill $(ps -e -o pid,command | \
         grep -oP "\d+\s(?=python3 -m http.server 8000)") || \
         die "Server is not running."
+      rm -rf htmlcov/
       shift
       ;; # 3}}}
     -h|-\?|--help) # help {{{3 

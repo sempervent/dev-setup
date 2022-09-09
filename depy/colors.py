@@ -220,15 +220,3 @@ def critical(text: str = '') -> str:
     """Return a critical error statement."""
     return Colors(now()).blink() + ' ' + Colors('CRITICAL: ').red().bold() + \
         Colors(text).light_red()
-
-
-if __name__ == "__main__":
-    print(
-        Colors('hello').green().blink() +
-        Colors(', ').yellow().bold() +
-        Colors('world').light_gray().dim()
-    )
-    print(warn('warning'))
-    print(info('info'))
-    print(error('error'))
-    print(critical('critical'))
