@@ -52,6 +52,4 @@ def get_env(
         return process_value(os.environ[key])
     if key in globals():
         return globals()[key]
-    else:
-        return value
-
+    return value
