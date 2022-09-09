@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
+get_pycov_total_percent(){
+  pytest --cov=$1 --cov-report term | grep 'TOTAL' | awk '{print $4}'
+}
+
+get_pycov_total_percent $1
