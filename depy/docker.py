@@ -7,6 +7,8 @@ import pathlib
 import subprocess
 from typing import Optional, Union
 
+from depy import flatten
+
 
 class Compose:
     """Abstraction layer to call docker-compose commands from the shell."""
@@ -52,6 +54,7 @@ class Compose:
             command.extend(self.options)
         if self.container is not None:
             command.extend(self.container)
+        command = flatten(command)
         with subprocess.Popen(args=command,
                              cwd=str(self.directory),
                              shell=False,
@@ -71,4 +74,3 @@ class Compose:
     def show_error(self):
         """Show the errors of the command."""
         print(self.error)
-
