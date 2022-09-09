@@ -35,6 +35,14 @@ class TestColorOutput(unittest.TestCase):
                 str(test_methods[function]()).split('test', maxsplit=1)[0],
                 test_strings[function.upper()]
             )
+        add_string = \
+            f'{Colors.GREEN}test{Colors.RESET}{Colors.DARK_GRAY}' + \
+            f'colors{Colors.RESET}'
+
+        self.assertEqual(
+            str(Colors('test').green() + Colors('colors').dark_gray()),
+            add_string
+        )
 
 
 if __name__ == "__main__":
