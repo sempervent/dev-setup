@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field, validator, UUID4
 DOCUMENTATION_INDICATION_STR = '#/'
 USAGE_STRING = '# usage'
 
+
 class BashDocumentationLine(BaseModel):
     """Abstraction for documentation in bash script."""
     module_name: str

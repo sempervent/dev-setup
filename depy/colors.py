@@ -4,6 +4,7 @@
 from datetime import datetime
 
 
+# pylint: disable=too-many-public-methods
 class Colors:
     """Provide a Colors class for pretty printing to the console."""
     BOLD = "\033[1m"
