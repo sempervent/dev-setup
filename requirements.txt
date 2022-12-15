@@ -3,3 +3,4 @@ tqdm==4.*
 psycopg2-binary==2.9.*
 pydantic
 rich
+py3-validate-email==1.0.7
