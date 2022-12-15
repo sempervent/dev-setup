@@ -1,0 +1,22 @@
+name: verify - pull_request
+on: [pull_request]
+jobs:
+  test-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.x
+      - name: Install python packages
+        run: |
+          pip install .[dev]
+      - name: Pylint
+        run: pylint --rcfile=.pylintrc platform_flow_common tests
+      - name: Flake8
+        run: flake8
+      - name: Pytest
+        run: |
+          pytest tests
+        if: always()
